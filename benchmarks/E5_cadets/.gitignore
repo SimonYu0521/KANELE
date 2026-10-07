@@ -1,5 +1,6 @@
 # Datasets and misc regenerable output (rebuild with build_dataset.py)
 data/
+data_*/
 *.out
 
 # Vivado / xsim generated projects, runs, logs (keep only src/mem/sim/vivado sources)
@@ -21,6 +22,7 @@ usage_statistics_webtalk*
 # keep only the final checkpoint (like the other benchmarks), drop training snapshots
 models/*/NID_*.pt
 !models/20260708_150047_poc/NID_acc0.9990_epoch50_remaining0.3362.pt
+!models/20260709_193605_undersample/NID_best.pt
 
 # smoke-test run (config only, no trained model/firmware)
 models/20260708_145754_poc/

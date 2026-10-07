@@ -16,7 +16,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 is_cuda = device == "cuda"
 
 # Set this to the models/<timestamp> folder that train_quant.py just created.
-model_tag = "20260708_150047_poc"
+model_tag = "20260709_193605_undersample"
 
 # --- 1. List all model files and find the one with best accuracy ---
 model_dir = f"models/{model_tag}"
@@ -25,8 +25,12 @@ files = [f for f in os.listdir(model_dir) if f.endswith(".pt")]
 if not files:
     raise FileNotFoundError(f"No model checkpoint files found in '{model_dir}' folder.")
 
-# Sort files by accuracy descending
-files.sort(key=lambda x: float(x.split('_acc')[1].split('_epoch')[0]), reverse=True)
+# Prefer an explicit best checkpoint (undersample/true-dist naming: NID_best.pt);
+# else pick the highest-accuracy checkpoint by filename (poc naming NID_acc..._epoch...).
+if "NID_best.pt" in files:
+    files = ["NID_best.pt"]
+else:
+    files.sort(key=lambda x: float(x.split('_acc')[1].split('_epoch')[0]), reverse=True)
 
 #Load the config
 with open(os.path.join(model_dir, "config.json"), "r") as f: config = json.load(f)

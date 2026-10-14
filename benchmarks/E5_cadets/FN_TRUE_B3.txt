@@ -1,0 +1,49 @@
+model models/20261013_145858_undersample_b3  encoding b3  floor 7.088e-05   benign lines scanned 190,387,151
+floor FN: 44 | raw twin exists: 43 | TRUE FN (no raw twin): 1  [of which still identical after encoding: 0]
+
+TRUE FN  execve sshd /bin/sh | enc twins 0 | raw twins 0 | score 7.09e-05 | halt-id False
+      differs from same-parsed-encoding benign in: CommandLine (16)
+      raw: {"event_id": "Mj30P0nUQrqN5ypyLZ9NtA", "syscall": "execve", "actorID": "18E4E30D-7332-11E9-B41B-D4AE52C1DBD3", "objectID": "70CC7497-3CAB-EC55-AB3C-2E99B5EC8C0B", "hostid": "3A541941-5B04-11E9-B2DB-D4AE52C1DBD3", "timestampNanos": 1557499461465024477, "exe": "sshd", "path": "/bin/sh", "CommandLine": "sh -c scp -t ~/", "object_type": "FILE_OBJECT_FILE", "actor_type": "SUBJECT_PROCESS"}
+twin     close cc  | enc twins 20,602,177 | raw twins 20,602,177 | score 7.09e-05 | halt-id True
+twin     close cc  | enc twins 20,602,177 | raw twins 20,602,177 | score 7.09e-05 | halt-id True
+twin     read dlogd  | enc twins 17,647,511 | raw twins 17,647,511 | score 7.09e-05 | halt-id True
+twin     read cc  | enc twins 16,618,876 | raw twins 16,618,876 | score 7.09e-05 | halt-id True
+twin     read cc  | enc twins 16,618,876 | raw twins 16,618,876 | score 7.09e-05 | halt-id True
+twin     read cc  | enc twins 16,618,876 | raw twins 16,618,876 | score 7.09e-05 | halt-id True
+twin     close du  | enc twins 15,301,028 | raw twins 15,301,028 | score 7.09e-05 | halt-id True
+twin     close du  | enc twins 15,301,028 | raw twins 15,301,028 | score 7.09e-05 | halt-id True
+twin     close du  | enc twins 15,301,028 | raw twins 15,301,028 | score 7.09e-05 | halt-id True
+twin     write dlogd  | enc twins 11,404,521 | raw twins 11,404,521 | score 7.09e-05 | halt-id True
+twin     write dlogd  | enc twins 11,404,521 | raw twins 11,404,521 | score 7.09e-05 | halt-id True
+twin     close sh  | enc twins 5,859,367 | raw twins 5,859,367 | score 7.09e-05 | halt-id True
+twin     close sh  | enc twins 5,859,367 | raw twins 5,859,367 | score 7.09e-05 | halt-id True
+twin     close sh  | enc twins 5,859,367 | raw twins 5,859,367 | score 7.09e-05 | halt-id True
+twin     read sh  | enc twins 3,495,739 | raw twins 3,495,739 | score 7.09e-05 | halt-id True
+twin     close sshd  | enc twins 3,249,198 | raw twins 3,249,198 | score 7.09e-05 | halt-id True
+twin     close sed  | enc twins 1,727,973 | raw twins 1,727,973 | score 7.09e-05 | halt-id True
+twin     close sed  | enc twins 1,727,973 | raw twins 1,727,973 | score 7.09e-05 | halt-id True
+twin     close make  | enc twins 1,554,112 | raw twins 1,554,112 | score 7.09e-05 | halt-id True
+twin     ptrace du du | enc twins 1,080,186 | raw twins 1,080,150 | score 7.09e-05 | halt-id True
+twin     read sed  | enc twins 824,591 | raw twins 824,591 | score 7.09e-05 | halt-id True
+twin     open cc /usr/include/sys/types.h | enc twins 666,965 | raw twins 666,965 | score 7.09e-05 | halt-id True
+twin     open cc /usr/include/machine/endian.h | enc twins 666,459 | raw twins 666,459 | score 7.09e-05 | halt-id True
+twin     open cc /usr/include/x86/_limits.h | enc twins 665,810 | raw twins 665,810 | score 7.09e-05 | halt-id True
+twin     fork cc cc | enc twins 659,255 | raw twins 605,421 | score 7.09e-05 | halt-id True
+twin     write syslogd  | enc twins 434,141 | raw twins 434,141 | score 7.09e-05 | halt-id True
+twin     close find  | enc twins 364,119 | raw twins 364,119 | score 7.09e-05 | halt-id True
+twin     open sed /var/run/ld-elf.so.hints | enc twins 210,108 | raw twins 210,108 | score 7.09e-05 | halt-id True
+twin     close ld.lld  | enc twins 191,638 | raw twins 191,638 | score 7.09e-05 | halt-id True
+twin     open sshd /usr/lib/libpam.so.6 | enc twins 38,430 | raw twins 38,430 | score 7.09e-05 | halt-id True
+twin     open sshd /usr/lib/libhx509.so.11 | enc twins 38,340 | raw twins 38,340 | score 7.09e-05 | halt-id True
+twin     open bash /etc/pwd.db | enc twins 35,936 | raw twins 35,936 | score 7.09e-05 | halt-id True
+twin     open du /usr/tests/sys/cddl/zfs/tests/bootfs/.. | enc twins 382 | raw twins 382 | score 7.09e-05 | halt-id True
+twin     open du /usr/tests/sys/pjdfstest/ftruncate/.. | enc twins 341 | raw twins 341 | score 7.09e-05 | halt-id False
+twin     open du /usr/tests/usr.bin/truncate/.. | enc twins 329 | raw twins 329 | score 7.09e-05 | halt-id False
+twin     open du /usr/tests/usr.bin/truncate/.. | enc twins 329 | raw twins 329 | score 7.09e-05 | halt-id False
+twin     open du /usr/ports/games/defendguin/.. | enc twins 312 | raw twins 312 | score 7.09e-05 | halt-id True
+twin     open du /usr/ports/graphics/libafterimage/files | enc twins 308 | raw twins 308 | score 7.09e-05 | halt-id True
+twin     open du /usr/ports/security/p5-Filter-CBC | enc twins 294 | raw twins 294 | score 7.09e-05 | halt-id True
+twin     open du /usr/ports/devel/yajl | enc twins 288 | raw twins 288 | score 7.09e-05 | halt-id True
+twin     open du /usr/ports/comms/hamlib/.. | enc twins 275 | raw twins 275 | score 7.09e-05 | halt-id True
+twin     open du /usr/ports/devel/R-cran-gsubfn/.. | enc twins 268 | raw twins 268 | score 7.09e-05 | halt-id True
+twin     open du /usr/ports/science/cdf/files/.. | enc twins 261 | raw twins 261 | score 7.09e-05 | halt-id True

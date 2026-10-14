@@ -23,6 +23,16 @@ usage_statistics_webtalk*
 models/*/NID_*.pt
 !models/20260708_150047_poc/NID_acc0.9990_epoch50_remaining0.3362.pt
 !models/20260709_193605_undersample/NID_best.pt
+!models/20261007_152104_undersample_b2/NID_best.pt
+!models/20261013_145858_undersample_b3/NID_best.pt
 
 # smoke-test run (config only, no trained model/firmware)
 models/20260708_145754_poc/
+
+# B3 hardware: Vivado scratch projects, negative-control copy, smoke outputs, local pipeline state
+B3_SIM*
+B3_NEG*
+b3_hw/sim_negctl/
+*_RESULTS_SMOKE.*
+b?_model_dir.txt
+xvhdl.pb

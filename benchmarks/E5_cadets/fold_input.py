@@ -12,8 +12,11 @@ untouched (their inputs are already internal LUT indices).
 
 Also regenerates the sim test vectors with RAW bytes as din (doubles as a
 real-data check, drawn from X_test). Run in kanele env.
+
+  python fold_input.py                                   # old PoC model (inputs were byte/255, data/)
+  python fold_input.py <model_dir> --raw --data <dir>    # raw-byte models (data_us*, fed 0..255, no /255)
 """
-import os, sys, json, glob, shutil
+import os, sys, json, glob, shutil, argparse
 import numpy as np, torch, torch.nn as nn
 sys.path.append('../../src')
 from KAN_LUT import KAN_LUT
@@ -23,10 +26,17 @@ from brevitas.nn import QuantHardTanh
 from brevitas.core.scaling import ParameterScaling
 from brevitas.core.quant import QuantType
 
-MDIR = "models/20260708_150047_poc"
+ap = argparse.ArgumentParser()
+ap.add_argument("mdir", nargs="?", default="models/20260708_150047_poc")
+ap.add_argument("--raw", action="store_true", help="model was trained on raw bytes 0..255 (no /255)")
+ap.add_argument("--data", default="data", help="dataset dir for the regenerated sim vectors")
+args = ap.parse_args()
+MDIR = args.mdir
 dev = torch.device("cpu")
 cfg = json.load(open(f"{MDIR}/config.json"))
-pt = sorted(glob.glob(f"{MDIR}/*.pt"), key=lambda x: float(x.split('_acc')[1].split('_epoch')[0]))[-1]
+pt = (f"{MDIR}/NID_best.pt" if os.path.exists(f"{MDIR}/NID_best.pt") else
+      sorted(glob.glob(f"{MDIR}/*.pt"), key=lambda x: float(x.split('_acc')[1].split('_epoch')[0]))[-1])
+BYTE_SCALE = 1.0 if args.raw else 255.0     # model input = byte / BYTE_SCALE
 ck = torch.load(pt, map_location=dev, weights_only=False)
 
 # input layer (identical construction to training) -> gets trained stats via KAN_LUT load
@@ -47,13 +57,14 @@ def to_din(x_float):  # replicate the hardware input index exactly
     return (q / scale).round().to(torch.int64) + OFF
 
 # --- per-feature byte -> din map, idx[b, j] in 0..255 ---
-probe = (torch.arange(256).float().unsqueeze(1).repeat(1, cfg["layers"][0])) / 255.0
+probe = (torch.arange(256).float().unsqueeze(1).repeat(1, cfg["layers"][0])) / BYTE_SCALE
 idx = to_din(probe).numpy()                    # (256, 64)
 assert idx.min() >= 0 and idx.max() <= 255
 
 # --- permute the layer-0 mem files ---
 mem_dir = f"{MDIR}/firmware/mem"
 backup = f"{mem_dir}/prefold_layer0"
+assert not os.path.exists(backup), f"{backup} exists: mems already folded (restore originals before re-folding)"
 os.makedirs(backup, exist_ok=True)
 n_folded = 0
 for f in glob.glob(f"{mem_dir}/lut_0_*.mem"):
@@ -68,9 +79,10 @@ for f in glob.glob(f"{mem_dir}/lut_0_*.mem"):
 print(f"folded {n_folded} layer-0 mem files (backup in {backup}/)")
 
 # --- regenerate sim vectors with RAW bytes (from real X_test) ---
-X = np.load("data/X_test.npy")                 # byte/255
-raw = np.rint(X[:10] * 255).astype(np.int64)   # 10 real events, raw bytes 0..255
-din = to_din(torch.from_numpy(raw).float() / 255.0)
+X = np.load(f"{args.data}/X_test.npy", mmap_mode="r")
+raw = (np.asarray(X[:10]).astype(np.int64) if args.raw            # uint8 raw bytes
+       else np.rint(np.asarray(X[:10]) * 255).astype(np.int64))   # PoC: byte/255 floats
+din = to_din(torch.from_numpy(raw).float() / BYTE_SCALE)
 outs = [kl._inference_sample(din[i]) for i in range(len(din))]
 sim = f"{MDIR}/firmware/sim"
 with open(f"{sim}/vectors_in.txt", "w") as fi:

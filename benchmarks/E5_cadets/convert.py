@@ -15,8 +15,9 @@ from brevitas.core.quant import QuantType
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 is_cuda = device == "cuda"
 
-# Set this to the models/<timestamp> folder that train_quant.py just created.
-model_tag = "20260709_193605_undersample"
+# Set this to the models/<timestamp> folder that train_quant.py just created
+# (or pass it on the command line:  python convert.py <model_tag>).
+model_tag = sys.argv[1] if len(sys.argv) > 1 else "20260709_193605_undersample"
 
 # --- 1. List all model files and find the one with best accuracy ---
 model_dir = f"models/{model_tag}"
